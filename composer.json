@@ -1,0 +1,17 @@
+{
+    "name": "muhfarkhans/lpsegg",
+    "autoload": {
+        "psr-4": {
+            "App\\Lpsegg\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Muh Farkhan Syafii",
+            "email": "zheninjas75@yahoo.co.id"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.4"
+    }
+}
