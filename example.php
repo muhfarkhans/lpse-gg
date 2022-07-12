@@ -1,7 +1,7 @@
 <?php
 require __DIR__.'/vendor/autoload.php';
 
-use Muhfarkhans\Lpsegg\LpseTable;
+use App\Lpsegg\LpseTable;
 
 $lp = new LpseTable();
 
@@ -11,10 +11,14 @@ $params = [
     // 'tahun'
     // 'instansiId'
     // 'search[value]'
-    'start'  => 0,
-    'length' => 20
+    // 'start'  => 0, 
+    // 'length' => 20, // moderate if start filled
 ];
 
-echo $lp->getTable($params);
+$data = $lp->getTable($params);
+$json = $lp->getArray($data);
+
+print_r($json);
+
 
 // echo $lp->getPengumuman();

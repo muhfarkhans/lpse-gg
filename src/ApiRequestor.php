@@ -9,28 +9,14 @@ use GuzzleHttp\Cookie\CookieJar;
 class ApiRequestor
 {
     
-    public static function get($url, $needs = false, $params = []) 
+    public static function get($url, $params = [], $session = false) 
     {
-        return self::remoteCall($url, $needs, $params, 'GET');
+        return self::remoteCall($url, 'GET', $params, $session);
     }
 
-    public static function remoteCall($url, $needs = false, $params = [], $method = 'GET')
+    public static function remoteCall($url, $method = 'GET', $params = [], $session = false)
     {
-        $extractCookie = self::extractToken();
-        $defaultCookie = [
-            'SPSE_SESSION' => $extractCookie->session,
-        ];
-
-        if ($needs == 'table') {
-            $condition = "";
-            foreach ($params as $key => $value) {
-                $condition .= "&".$key."=".$value;
-            }
-
-            $url = $url.'authenticityToken='.$extractCookie->datatables_token.$condition;
-        }
-
-        $cookie = array_merge($defaultCookie, []);
+        $cookie = array_merge($session, []);
         $cookieJar = CookieJar::fromArray($cookie, Config::getBaseHostname());
 
         $client = new Client([
@@ -41,27 +27,6 @@ class ApiRequestor
         $res = $client->request($method, $url);
         $contents = (string) $res->getBody();
 
-        header('Content-type: application/json');
-        echo $contents;
-    }
-
-    public static function extractToken()
-    {
-        $client = new \GuzzleHttp\Client([
-            'verify' => false,
-            'cookies' => true,
-        ]);
-
-        $client->request('GET', Config::getBaseUrl());
-
-        $cookieJar = $client->getConfig('cookies');
-        $arr = $cookieJar->toArray();
-        $extractCookie = $arr[1]['Value'];
-        $cookie = (object) [
-            'session'   => $extractCookie,
-            'datatables_token'  => substr($extractCookie, 47, 40),
-        ];
-
-        return $cookie;
+        return json_decode($contents); 
     }
 }

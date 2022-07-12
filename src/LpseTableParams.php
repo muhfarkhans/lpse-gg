@@ -4,9 +4,16 @@ namespace App\Lpsegg;
 
 use Exception;
 
-class TableParams
+class LpseTableParams
 {
-    public static function getParamsTable($params)
+    public $customParams;
+
+    public function setCustomParams($param)
+    {
+        $this->customParams = $param;
+    }
+
+    public function getParamsTable()
     {
         $paramsTable = [
             'columns[0][data]' => 0,
@@ -44,7 +51,7 @@ class TableParams
             'search[regex]' => false,
         ];
 
-        $paramsTable = array_merge($paramsTable, $params);
+        $paramsTable = array_merge($paramsTable, $this->customParams);
 
         return $paramsTable;
     }
