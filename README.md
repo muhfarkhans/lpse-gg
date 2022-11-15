@@ -52,4 +52,18 @@ $params = [
 $data = $lp->getTable($params);
 ```
 
+Step 2: generate response
 
+### To Array
+
+```php
+$array = $lp->getArray($data);
+print_r($array);
+```
+
+### To JSON
+
+```php
+$json = $lp->getJson($data);
+echo $json;
+```
